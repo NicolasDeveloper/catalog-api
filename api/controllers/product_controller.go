@@ -22,7 +22,11 @@ func NewProductController() ProductController {
 
 //Index get products in database
 func (c *ProductController) Index(w http.ResponseWriter, r *http.Request) {
-
+	c.SendJSON(
+		w,
+		nil,
+		http.StatusOK,
+	)
 }
 
 //Post insert product
@@ -46,6 +50,6 @@ func (c *ProductController) Post(w http.ResponseWriter, r *http.Request) {
 	c.SendJSON(
 		w,
 		output,
-		http.StatusOK,
+		http.StatusCreated,
 	)
 }
