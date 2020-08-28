@@ -19,16 +19,16 @@ func NewRegisterProduct(repository ports.IProductRepository) *RegisterProduct {
 }
 
 //Execute execute use case
-func (u *RegisterProduct) Execute(request *commands.Product) error {
+func (u *RegisterProduct) Execute(input commands.ProductInput) (commands.ProductOutput, error) {
 	entity, error := entities.NewProduct(
-		request.Name,
-		request.Price,
-		request.Description,
+		input.Name,
+		input.Price,
+		input.Description,
 	)
 
 	u.repository.Save(entity)
 
-	request.ID = entity.ID
-
-	return error
+	return commands.ProductOutput{
+		ID: entity.ID,
+	}, error
 }

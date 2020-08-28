@@ -31,14 +31,15 @@ func TestRegisterUseCase(t *testing.T) {
 
 		repository.On("Save", product).Return(nil)
 
-		productDTO := commands.Product{
+		input := commands.ProductInput{
 			Name:        "Teste",
 			Price:       19.99,
 			Description: "Teste de descrição",
 		}
 
 		useCase := NewRegisterProduct(repository)
-		useCase.Execute(&productDTO)
+
+		useCase.Execute(input)
 
 		repository.AssertExpectations(t)
 	})

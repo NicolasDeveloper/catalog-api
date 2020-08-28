@@ -30,14 +30,22 @@ func (c *ProductController) Post(w http.ResponseWriter, r *http.Request) {
 	var usecase *usecases.RegisterProduct
 	container.Make(&usecase)
 
-	command := &commands.Product{}
+	command := commands.ProductInput{}
 	c.GetContent(command, r)
 
-	usecase.Execute(command)
+	output, err := usecase.Execute(command)
+
+	if err != nil {
+		c.SendJSON(
+			w,
+			nil,
+			http.StatusBadRequest,
+		)
+	}
 
 	c.SendJSON(
 		w,
-		command,
+		output,
 		http.StatusOK,
 	)
 }
